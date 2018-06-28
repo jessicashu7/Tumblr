@@ -7,6 +7,8 @@
 //
 
 #import "PhotosViewController.h"
+#import "UIImageView+AFNetworking.h"
+#import "PhotoViewCell.h"
 
 @interface PhotosViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *photoViewTable;
@@ -56,8 +58,20 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"cellforrowatindexpath called");
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PhotoViewCell" forIndexPath:indexPath];
-    cell.textLabel.text = @"row @%d", indexPath.row;
+    PhotoViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PhotoViewCell" forIndexPath:indexPath];
+    //cell.textLabel.text = @"row @%d", indexPath.row;
+    
+    NSDictionary *post = self.posts[indexPath.row];
+    NSArray *photos = post[@"photos"];
+    if (photos) {
+        NSDictionary *photo = photos[0];
+        NSDictionary *originalSize = photo[@"original_size"];
+        NSString *urlString = originalSize[@"url"];
+        NSURL *url =  [NSURL URLWithString:urlString];
+        
+        [cell.photoImageView setImageWithURL:url];
+    }
+    
     return cell;
 }
 /*
