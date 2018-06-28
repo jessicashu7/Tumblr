@@ -38,6 +38,7 @@
             self.posts = responseDictionary[@"posts"];
             // TODO: Get the posts and store in posts property
             // TODO: Reload the table view
+            [self.photoViewTable reloadData];
         }
     }];
     [task resume];
@@ -53,8 +54,10 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PhotoViewCell" forIndexPath:indexPath];
     
+    NSLog(@"cellforrowatindexpath called");
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PhotoViewCell" forIndexPath:indexPath];
+    cell.textLabel.text = @"row @%d", indexPath.row;
     return cell;
 }
 /*
